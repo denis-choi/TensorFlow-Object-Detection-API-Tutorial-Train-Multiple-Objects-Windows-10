@@ -20,7 +20,8 @@ from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
-flags = tf.app.flags
+#flags = tf.app.flags
+flags = tf.compat.v1.flags
 flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
 flags.DEFINE_string('image_dir', '', 'Path to the image directory')
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
@@ -29,18 +30,24 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'nine':
+    if row_label == 'onadus':
         return 1
-    elif row_label == 'ten':
+    elif row_label == 'jacob':
         return 2
-    elif row_label == 'jack':
+    elif row_label == 'denis':
         return 3
-    elif row_label == 'queen':
+    elif row_label == 'andre':
         return 4
-    elif row_label == 'king':
+    elif row_label == 'robert':
         return 5
-    elif row_label == 'ace':
+    elif row_label == 'geonu':
         return 6
+    elif row_label == 'park':
+        return 7
+    elif row_label == 'brian':
+        return 8
+    elif row_label == 'jessica':
+        return 9        
     else:
         None
 
@@ -93,7 +100,8 @@ def create_tf_example(group, path):
 
 
 def main(_):
-    writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    #writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    writer = tf.io.TFRecordWriter(FLAGS.output_path)
     path = os.path.join(os.getcwd(), FLAGS.image_dir)
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
@@ -107,4 +115,5 @@ def main(_):
 
 
 if __name__ == '__main__':
-    tf.app.run()
+    tf.compat.v1.app.run()
+#tf.app.run()
